@@ -48,6 +48,7 @@ export class CountryComponent implements OnInit {
               panelClass:['success-snackBar'],
      
             });
+            this.ngOnInit();
            
           },
           err =>{
