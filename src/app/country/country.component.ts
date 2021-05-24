@@ -18,13 +18,25 @@ export class CountryComponent implements OnInit {
 
     this.countryService.getAllCountries().subscribe(
           res =>{
-            console.log(res);
+            
             this.countryObjs = res;
           },
           err =>{
             console.log(err.error);
           }
-        )
+        );
+  }
+
+  addCountry(){
+      this.countryService.addCountry(this.countryObj).subscribe(
+          (res:any) =>{
+            this.countryObjs = res;
+          },
+          err =>{
+            console.log(err.error);
+          }
+        );
+      
   }
 
 }

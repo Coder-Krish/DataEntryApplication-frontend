@@ -9,6 +9,7 @@ import { DistrictComponent } from './district/district.component';
 import { LaborComponent } from './labor/labor.component';
 import { ReportComponent } from './report/report.component';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
   
   ],
   providers: [],
