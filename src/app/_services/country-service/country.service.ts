@@ -17,4 +17,15 @@ export class CountryService {
   addCountry(country:Country){
     return this.http.post(environment.apiUrl + 'Country', country, {responseType:'json'});
   }
+
+  getCountryById(id:number):Observable<any>{
+    return this.http.get(environment.apiUrl + 'Country/'+id, {responseType:'json'});
+  }
+
+  updateCountry(id:number, countryData:Country):Observable<any>{
+    return this.http.put(environment.apiUrl + 'Country/'+id, countryData,{responseType:'json'});
+  }
+  deleteCountry(id:number):Observable<any>{
+    return this.http.delete(environment.apiUrl + 'Country/'+id, {responseType:'json'});
+  }
 }
