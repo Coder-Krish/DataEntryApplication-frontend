@@ -22,7 +22,10 @@ export class LaborComponent implements OnInit {
   public countryObjs:Array<Country> = new Array<Country>();
   public districtObj:District = new District();
   public districtObjs:Array<District> = new Array<District>();
- districtId:any;
+  districtId:any;
+
+  countryDetails:any;
+  districtDetails:any;
 
   popoverTitle:string="Are you sure you want to delete?";
   popoverMessage:string="You can not undo this operation after you confirm to delete.";
@@ -130,9 +133,13 @@ export class LaborComponent implements OnInit {
           this.districtService.getDistrictById(this.editLaborObj.districtId).subscribe(
             res =>{
               this.editLaborObj.district = res;
+              this.districtDetails= res.name;
+
               this.countryService.getCountryById(res.countryId).subscribe(
                 res =>{
                   this.editLaborObj.country = res;
+                  this.countryDetails = res.name;
+
                 },
                 err =>{
                   console.log(err);

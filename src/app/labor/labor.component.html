@@ -24,15 +24,13 @@
                     <td>{{ labor.taskDetail }}</td>
                     <td>{{ labor.workHours }}</td>
                     <td>
-                        <button  class="btn btn-danger" 
-                        mwlConfirmationPopover
-                        [popoverTitle]="popoverTitle"
-                        [popoverMessage]="popoverMessage"
-                        placement="left"
-                        (confirm)="deleteLabor(labor.id)"
-                        (cancel)="cancelClicked = true"><i class="fa fa-trash"></i></button> &nbsp;
-                        <button class="btn btn-secondary" (click)="updateLaborClicked(labor.id)" data-toggle="modal" data-target="#editLaborModal"><i class="fa fa-edit"></i></button>&nbsp;
-                        <button class="btn btn-primary" (click)="getLaborById(labor.id)" data-toggle="modal" data-target="#viewLaborModal" ><i class="fa fa-eye"></i></button>&nbsp;
+                        <button class="btn btn-danger" mwlConfirmationPopover [popoverTitle]="popoverTitle"
+                            [popoverMessage]="popoverMessage" placement="left" (confirm)="deleteLabor(labor.id)"
+                            (cancel)="cancelClicked = true"><i class="fa fa-trash"></i></button> &nbsp;
+                        <button class="btn btn-secondary" (click)="updateLaborClicked(labor.id)" data-toggle="modal"
+                            data-target="#editLaborModal"><i class="fa fa-edit"></i></button>&nbsp;
+                        <button class="btn btn-primary" (click)="getLaborById(labor.id)" data-toggle="modal"
+                            data-target="#viewLaborModal"><i class="fa fa-eye"></i></button>&nbsp;
                     </td>
                 </tr>
             </tbody>
@@ -42,18 +40,40 @@
 </div>
 
 
-  <!-- Add District Modal Start -->
-  <div class="modal fade" id="addLaborModal" tabindex="-1" role="dialog" aria-labelledby="addLaborModalCenterTitle" aria-hidden="true">
+<!-- Add District Modal Start -->
+<div class="modal fade" id="addLaborModal" tabindex="-1" role="dialog" aria-labelledby="addLaborModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addDistrictModalLongTitle">Labor</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDistrictModalLongTitle">Labor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Country Name:</label>
+                        <select class="form-control" (change)="changeCountryHandler($event)">
+                            <option>--select a country--</option>
+                            <option *ngFor="let country of countryObjs" value="{{ country.id }}">{{ country.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>District Name:</label>
+                        <select class="form-control" (change)="changeDistrictHandler($event)">
+                            <option>--select a District--</option>
+                            <option *ngFor="let district of districtObjs" value="{{ district.id }}">{{ district.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 
             <label>Country Name:</label>
             <select class="form-control" (change)="changeCountryHandler($event)">
                 <option>--select a country--</option>
@@ -64,100 +84,114 @@
             <select class="form-control" (change)="changeDistrictHandler($event)">
                 <option>--select a District--</option>
                 <option *ngFor="let district of districtObjs" value="{{ district.id }}">{{ district.name }}</option>
-            </select>
+            </select> -->
 
-            <label>Labor Name:</label>
-            <input type="text" name="laborName" class="form-control" [(ngModel)]="addLaborObj.laborName">
+                <label>Labor Name:</label>
+                <input type="text" name="laborName" class="form-control" [(ngModel)]="addLaborObj.laborName">
 
-            <label>Task Detail:</label>
-            <input type="text" name="taskDetail" class="form-control" [(ngModel)]="addLaborObj.taskDetail">
-            
-            <label>Work Hours:</label>
-            <input type="text" name="workHpurs" class="form-control" [(ngModel)]="addLaborObj.workHours">
-            
-           
-           
+                <label>Task Detail:</label>
+                <input type="text" name="taskDetail" class="form-control" [(ngModel)]="addLaborObj.taskDetail">
+
+                <label>Work Hours:</label>
+                <input type="text" name="workHpurs" class="form-control" [(ngModel)]="addLaborObj.workHours">
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i
+                        class="fas fa-window-close"></i></button>
+                <button type="button" class="btn btn-primary" (click)="addLabor()">Add</button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i></button>
-          <button type="button" class="btn btn-primary" (click)="addLabor()">Add</button>
-        </div>
-      </div>
     </div>
-  </div>
-  <!-- End Add District Modal-->
+</div>
+<!-- End Add District Modal-->
 
-   <!-- View District Modal Start -->
-   <div class="modal fade" id="viewLaborModal" tabindex="-1" role="dialog" aria-labelledby="viewLaborModalCenterTitle" aria-hidden="true">
+<!-- View District Modal Start -->
+<div class="modal fade" id="viewLaborModal" tabindex="-1" role="dialog" aria-labelledby="viewLaborModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewLaborModalLongTitle">Labor
-              
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-         
-           <label>Country Name:</label>
-           <div><strong>{{ viewLaborObj.country }}</strong></div><br>
-       
-           <label>District Name:</label>
-           <div><strong>{{viewLaborObj.district }}</strong></div><br>
-
-           <label>Labor Name:</label>
-           <div><strong>{{viewLaborObj.laborName }}</strong></div><br>
-
-           <label>Task Detail Name:</label>
-           <div><strong>{{viewLaborObj.taskDetail }}</strong></div><br>
-
-           <label>Work Hours:</label>
-           <div><strong>{{viewLaborObj.workHours }}</strong></div><br>
-        </div>
-       
-      </div>
-    </div>
-  </div>
-  <!-- End View District Modal-->
-
-    <!-- Edit District Modal Start -->
-    <div class="modal fade" id="editLaborModal" tabindex="-1" role="dialog" aria-labelledby="editLaborModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="editLaborModalLongTitle">Labor</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                <h5 class="modal-title" id="viewLaborModalLongTitle">Labor
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
 
                 <label>Country Name:</label>
-                <input type="text" name="countryName" class="form-control" readonly>
-            
+                <div><strong>{{ viewLaborObj.country }}</strong></div><br>
+
                 <label>District Name:</label>
-                <input type="text" name="districtName" class="form-control" readonly>
-     
+                <div><strong>{{viewLaborObj.district }}</strong></div><br>
 
                 <label>Labor Name:</label>
-            <input type="text" name="laborName" class="form-control" [(ngModel)]="editLaborObj.laborName">
+                <div><strong>{{viewLaborObj.laborName }}</strong></div><br>
 
-            <label>Task Detail:</label>
-            <input type="text" name="taskDetail" class="form-control" [(ngModel)]="editLaborObj.taskDetail">
-            
-            <label>Work Hours:</label>
-            <input type="text" name="workHpurs" class="form-control" [(ngModel)]="editLaborObj.workHours">
-            
-           
+                <label>Task Detail Name:</label>
+                <div><strong>{{viewLaborObj.taskDetail }}</strong></div><br>
+
+                <label>Work Hours:</label>
+                <div><strong>{{viewLaborObj.workHours }}</strong></div><br>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End View District Modal-->
+
+<!-- Edit District Modal Start -->
+<div class="modal fade" id="editLaborModal" tabindex="-1" role="dialog" aria-labelledby="editLaborModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editLaborModalLongTitle">Labor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Country Name:</label>
+                        <input type="text" name="countryName" class="form-control" [(ngModel)]="countryDetails"
+                            readonly>
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>District Name:</label>
+                        <input type="text" name="districtName" class="form-control" [(ngModel)]="districtDetails"
+                            readonly>
+
+                    </div>
+                </div>
+
+                <label>Labor Name:</label>
+                <input type="text" name="laborName" class="form-control" [(ngModel)]="editLaborObj.laborName">
+
+                <label>Task Detail:</label>
+                <input type="text" name="taskDetail" class="form-control" [(ngModel)]="editLaborObj.taskDetail">
+
+                <label>Work Hours:</label>
+                <input type="text" name="workHpurs" class="form-control" [(ngModel)]="editLaborObj.workHours">
+
+
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i></button>
-              <button type="button" class="btn btn-primary" (click)="updateLabor(editLaborObj.id)">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i
+                        class="fas fa-window-close"></i></button>
+                <button type="button" class="btn btn-primary" (click)="updateLabor(editLaborObj.id)">Update</button>
             </div>
-          </div>
         </div>
-      </div>
-      <!-- End Edit District Modal-->
-
+    </div>
+</div>
+<!-- End Edit District Modal-->
