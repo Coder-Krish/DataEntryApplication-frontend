@@ -1,1 +1,38 @@
-<p>report works!</p>
+<div class="wrapper">
+    <div style="margin-left: 350px;"><strong>District Wise Expenditure Report </strong></div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+
+            <thead>
+                <th>#</th>
+                <th>District Name</th>
+                <th>Labor Rate Per Hour (NRS)</th>
+               
+                <th>Total Labors</th>
+                <th>Total Expenditure (NRS)</th>
+               
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of districtObjs">
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.laborRatePerHour }}</td>
+                    <td [hidden]="!data.totalExpenditure">{{ data.totalLabors }}</td>
+                    <td [hidden]="data.totalExpenditure">0</td>
+                    <td [hidden]="!data.totalExpenditure">&nbsp;{{ data.totalExpenditure }}</td>
+                    <td [hidden]="data.totalExpenditure"> 0</td>
+                    <!-- <td>
+                        <button class="btn btn-danger" mwlConfirmationPopover [popoverTitle]="popoverTitle"
+                            [popoverMessage]="popoverMessage" placement="left" (confirm)="deleteLabor(labor.id)"
+                            (cancel)="cancelClicked = true"><i class="fa fa-trash"></i></button> &nbsp;
+                        <button class="btn btn-secondary" (click)="updateLaborClicked(labor.id)" data-toggle="modal"
+                            data-target="#editLaborModal"><i class="fa fa-edit"></i></button>&nbsp;
+                        <button class="btn btn-primary" (click)="getLaborById(labor.id)" data-toggle="modal"
+                            data-target="#viewLaborModal"><i class="fa fa-eye"></i></button>&nbsp;
+                    </td> -->
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
