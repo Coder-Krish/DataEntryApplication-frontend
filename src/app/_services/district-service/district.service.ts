@@ -28,4 +28,8 @@ export class DistrictService {
   deleteDistrict(id:number):Observable<any>{
     return this.http.delete(environment.apiUrl + 'District/'+id, {responseType:'json'});
   }
+
+  getDistrictByCountryId(id:number):Observable<any>{
+    return this.http.get(environment.apiUrl + 'getDistrictsById/'+id, {responseType:'json'});
+  }
 }
