@@ -39,7 +39,7 @@ export class CountryComponent implements OnInit {
 
       this.countryService.addCountry(this.addCountryObj).subscribe(
           (res:any) =>{
-            this.addCountryObj = res;
+           // this.addCountryObj = res;
 
             this.snackBar.open("Country Added Successfully",'Dismiss',{
               duration: 4000,
