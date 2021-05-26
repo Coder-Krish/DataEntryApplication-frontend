@@ -2,7 +2,7 @@
   <div style="margin-top: 20px;margin-bottom: 20px;">
     <button class="btn btn-primary" data-toggle="modal" data-target="#addCountryModal"><i
         class="fa fa-plus"></i>&nbsp;Add Country</button>
-        
+
         <nav class="navbar" style="float: right;">
           <input type="text" class="form-control" name="searchResult" [(ngModel)]="searchResult" (ngModelChange)="search()" placeholder="Type to search" />
          </nav>
@@ -67,7 +67,7 @@
           pattern="^[A-Z]{1,1}[0-9]{4,4}$" 
           required>
 
-          <div *ngIf="f.submitted && code.invalid || code.touched" class="alert">
+          <div *ngIf="f.submitted && code.invalid" class="alert">
             <div class="alert alert-danger" role="alert" *ngIf="code.errors?.required">
               <span> Country Code is required.*</span>
             </div>
@@ -84,7 +84,7 @@
           #name="ngModel"
           required>
 
-          <div *ngIf="f.submitted && name.invalid || name.touched" class="alert">
+          <div *ngIf="f.submitted && name.invalid" class="alert">
             <div class="alert alert-danger" role="alert" *ngIf="name.errors?.required">
               <span> Name is required.*</span>
             </div>

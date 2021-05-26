@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     DistrictComponent,
     LaborComponent,
     ReportComponent,
+    HomeComponent,
 
   ],
   imports: [

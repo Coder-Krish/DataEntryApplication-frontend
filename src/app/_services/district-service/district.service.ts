@@ -32,4 +32,8 @@ export class DistrictService {
   getDistrictByCountryId(id:number):Observable<any>{
     return this.http.get(environment.apiUrl + 'getDistrictsById/'+id, {responseType:'json'});
   }
+
+  countDistrict():Observable<any>{
+    return this.http.get(environment.apiUrl + 'countDistricts');
+  }
 }

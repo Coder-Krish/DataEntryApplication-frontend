@@ -28,4 +28,8 @@ export class LaborService {
   deleteLabor(id:number):Observable<any>{
     return this.http.delete(environment.apiUrl + 'Labor/'+id, {responseType:'json'});
   }
+
+  countLabor():Observable<any>{
+    return this.http.get(environment.apiUrl + 'countLabors');
+  }
 }

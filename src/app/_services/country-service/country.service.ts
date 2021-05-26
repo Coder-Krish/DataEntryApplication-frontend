@@ -28,4 +28,9 @@ export class CountryService {
   deleteCountry(id:number):Observable<any>{
     return this.http.delete(environment.apiUrl + 'Country/'+id, {responseType:'json'});
   }
+
+  countCountry():Observable<any>{
+    return this.http.get(environment.apiUrl + 'countCountries');
+  }
+
 }
