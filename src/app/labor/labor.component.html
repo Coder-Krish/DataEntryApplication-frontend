@@ -17,7 +17,7 @@
                 <th>Actions</th>
             </thead>
             <tbody>
-                <tr *ngFor="let labor of laborObjs">
+                <tr *ngFor="let labor of laborObjs | paginate: { id: 'listing_pagination',itemsPerPage: 6,currentPage: page,totalItems: totalRecords }">
                     <td>{{ labor.id }}</td>
                     <td>{{ labor.laborName }}</td>
                     <td>{{ labor.district.name }}</td>
@@ -36,6 +36,9 @@
             </tbody>
 
         </table>
+        <div>
+            <pagination-controls  id="listing_pagination" maxSize="5" directionLinks="true" (pageChange)="page = $event" style="display: flex; float:right;"></pagination-controls>
+        </div>
     </div>
 </div>
 
@@ -51,6 +54,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <form
+            (ngSubmit)="f.form.valid && addLabor()" 
+            #f="ngForm" 
+            novalidate>
             <div class="modal-body">
 
                 <div class="form-row">
@@ -73,27 +80,50 @@
                     </div>
                 </div>
 
-                <!-- 
-            <label>Country Name:</label>
-            <select class="form-control" (change)="changeCountryHandler($event)">
-                <option>--select a country--</option>
-                <option *ngFor="let country of countryObjs" value="{{ country.id }}">{{ country.name }}</option>
-            </select>
-
-            <label>District Name:</label>
-            <select class="form-control" (change)="changeDistrictHandler($event)">
-                <option>--select a District--</option>
-                <option *ngFor="let district of districtObjs" value="{{ district.id }}">{{ district.name }}</option>
-            </select> -->
 
                 <label>Labor Name:</label>
-                <input type="text" name="laborName" class="form-control" [(ngModel)]="addLaborObj.laborName">
+                <input type="text" name="laborName" 
+                class="form-control" id="laborName"
+                [(ngModel)]="addLaborObj.laborName"
+                #laborName = "ngModel"
+                required>
+
+                <div *ngIf="f.submitted && laborName.invalid" class="alert">
+                    <div class="alert alert-danger" role="alert" *ngIf="laborName.errors?.required">
+                      <span> Name is required.*</span>
+                    </div>
+                  </div>
 
                 <label>Task Detail:</label>
-                <input type="text" name="taskDetail" class="form-control" [(ngModel)]="addLaborObj.taskDetail">
+                <input type="text" name="taskDetail" 
+                class="form-control" id="taskDetail" 
+                [(ngModel)]="addLaborObj.taskDetail"
+                #taskDetail = "ngModel"
+                required>
+
+                <div *ngIf="f.submitted && taskDetail.invalid" class="alert">
+                    <div class="alert alert-danger" role="alert" *ngIf="taskDetail.errors?.required">
+                      <span> Task Detail is required.*</span>
+                    </div>
+                  </div>
+
 
                 <label>Work Hours:</label>
-                <input type="text" name="workHpurs" class="form-control" [(ngModel)]="addLaborObj.workHours">
+                <input type="text" name="workHpurs" 
+                class="form-control" id="workHours"
+                [(ngModel)]="addLaborObj.workHours"
+                #workHours = "ngModel"
+                pattern="^[0-9]{1,2}$"
+                required>
+                
+                <div *ngIf="f.submitted && workHours.invalid " class="alert">
+                    <div class="alert alert-danger" role="alert" *ngIf="workHours.errors?.required">
+                      <span> Work Hours is required.*</span>
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="workHours.errors?.pattern">
+                      <span> Work Hours should be in numeric characters.*</span>
+                    </div>
+                  </div>
 
 
 
@@ -101,8 +131,9 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i
                         class="fas fa-window-close"></i></button>
-                <button type="button" class="btn btn-primary" (click)="addLabor()">Add</button>
+                <button type="submit" class="btn btn-primary">Add</button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -185,11 +216,16 @@
                 <input type="text" name="workHpurs" class="form-control" [(ngModel)]="editLaborObj.workHours">
 
 
+
+                <br>
+
+   
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i
                         class="fas fa-window-close"></i></button>
-                <button type="button" class="btn btn-primary" (click)="updateLabor(editLaborObj.id)">Update</button>
+                <button type="submit" class="btn btn-primary" (click)="updateLabor(editLaborObj.id)">Update</button>
             </div>
         </div>
     </div>

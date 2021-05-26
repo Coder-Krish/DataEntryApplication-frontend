@@ -19,6 +19,10 @@ export class CountryComponent implements OnInit {
   popoverMessage:string="You can not undo this operation after you confirm to delete.";
   cancelClicked=false;
 
+  totalRecords : number;
+  page: number = 1;
+
+
   constructor(private countryService:CountryService,
               private snackBar:MatSnackBar) { }
 
@@ -77,7 +81,7 @@ export class CountryComponent implements OnInit {
         this.editCountryObj = res;
       },
       err =>{
-        console.log(err.error);
+    console.log(err);
       }
     );
   }
@@ -85,6 +89,7 @@ export class CountryComponent implements OnInit {
   updateCountry(id:number){
       this.countryService.updateCountry(id, this.editCountryObj).subscribe(
         res =>{
+         
           this.snackBar.open("Country Updated Successfully",'Dismiss',{
             duration: 4000,
             verticalPosition: 'top',
@@ -95,7 +100,14 @@ export class CountryComponent implements OnInit {
           this.ngOnInit();
         },
         err =>{
-          console.log(err.error);
+          this.snackBar.open("something went wrong could not update Country",'Dismiss',{
+            duration: 4000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass:['red-snackBar'],
+   
+          });
+          this.ngOnInit();
         }
       );
   }

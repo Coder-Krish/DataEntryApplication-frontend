@@ -1,118 +1,166 @@
 <div class="wrapper">
-    <div style="margin-top: 20px;margin-bottom: 20px;">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#addCountryModal"><i class="fa fa-plus"></i>&nbsp;Add Country</button>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
+  <div style="margin-top: 20px;margin-bottom: 20px;">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addCountryModal"><i
+        class="fa fa-plus"></i>&nbsp;Add Country</button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
 
-            <thead>
-                <th>#</th>
-                <th>Country Code</th>
-                <th>Country Name</th>
-                <th>Actions</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let country of countryObjs">
-                    <td>{{ country.id }}</td>
-                    <td>{{ country.code }}</td>
-                    <td>{{ country.name }}</td>
-                    <td>
-                        <button  class="btn btn-danger" 
-                        mwlConfirmationPopover
-                        [popoverTitle]="popoverTitle"
-                        [popoverMessage]="popoverMessage"
-                        placement="left"
-                        (confirm)="deleteCountry(country.id)"
-                        (cancel)="cancelClicked = true"><i class="fa fa-trash"></i></button> &nbsp;
-                        <button class="btn btn-secondary" (click)="updateCountryClicked(country.id)" data-toggle="modal" data-target="#editCountryModal"><i class="fa fa-edit"></i></button>&nbsp;
-                        <button class="btn btn-primary" (click)="getCountryById(country.id)" data-toggle="modal" data-target="#viewCountryModal" ><i class="fa fa-eye"></i></button>&nbsp;
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
-    </div>
+      <thead>
+        <th>#</th>
+        <th>Country Code</th>
+        <th>Country Name</th>
+        <th>Actions</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let country of countryObjs | paginate: { id: 'listing_pagination',itemsPerPage: 6,currentPage: page,totalItems: totalRecords }">
+          <td>{{ country.id }}</td>
+          <td>{{ country.code }}</td>
+          <td>{{ country.name }}</td>
+          <td>
+            <button class="btn btn-danger" mwlConfirmationPopover [popoverTitle]="popoverTitle"
+              [popoverMessage]="popoverMessage" placement="left" (confirm)="deleteCountry(country.id)"
+              (cancel)="cancelClicked = true"><i class="fa fa-trash"></i></button> &nbsp;
+            <button class="btn btn-secondary" (click)="updateCountryClicked(country.id)" data-toggle="modal"
+              data-target="#editCountryModal"><i class="fa fa-edit"></i></button>&nbsp;
+            <button class="btn btn-primary" (click)="getCountryById(country.id)" data-toggle="modal"
+              data-target="#viewCountryModal"><i class="fa fa-eye"></i></button>&nbsp;
+          </td>
+        </tr>
+      </tbody>
+     
+    </table>
+    <div>
+      <pagination-controls  id="listing_pagination" maxSize="5" directionLinks="true" (pageChange)="page = $event" style="display: flex; float:right;"></pagination-controls>
+  </div>
+  </div>
 </div>
 
-  <!-- Add Country Modal Start -->
-  <div class="modal fade" id="addCountryModal" tabindex="-1" role="dialog" aria-labelledby="addCountryModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addCountryModalLongTitle">Country</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+<!-- Add Country Modal Start -->
+<div class="modal fade" id="addCountryModal" tabindex="-1" role="dialog" aria-labelledby="addCountryModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCountryModalLongTitle">Country</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form 
+      (ngSubmit)="f.form.valid && addCountry()" 
+      #f="ngForm" 
+      novalidate>
         <div class="modal-body">
-         
-            <label>Country Code:</label>
-          <input type="text" name="code" class="form-control" id="" [(ngModel)]="addCountryObj.code">
+          <p style="color: red;"><em> Note: Country Code should be like <b> C1001</b></em></p>
+          <label>Country Code:</label>
+          <input type="text" name="code" 
+          class="form-control" id="code" 
+          [(ngModel)]="addCountryObj.code" 
+          #code="ngModel"
+          pattern="^[A-Z]{1,1}[0-9]{4,4}$" 
+          required>
+
+          <div *ngIf="f.submitted && code.invalid || code.touched" class="alert">
+            <div class="alert alert-danger" role="alert" *ngIf="code.errors?.required">
+              <span> Country Code is required.*</span>
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="code.errors?.pattern">
+              <span> Country Code is not in correct pattern.*</span>
+            </div>
+          </div>
+
+
           <label>Country Name:</label>
-          <input type="text" name="name" class="form-control" id="" [(ngModel)]="addCountryObj.name">
+          <input type="text" name="name" 
+          class="form-control" id="name" 
+          [(ngModel)]="addCountryObj.name" 
+          #name="ngModel"
+          required>
+
+          <div *ngIf="f.submitted && name.invalid || name.touched" class="alert">
+            <div class="alert alert-danger" role="alert" *ngIf="name.errors?.required">
+              <span> Name is required.*</span>
+            </div>
+          </div>
+
+
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i></button>
-          <button type="button" class="btn btn-primary" (click)="addCountry()">Add</button>
+          <button type="submit" class="btn btn-primary">Add</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
-  <!-- End Add Country Modal-->
+</div>
+<!-- End Add Country Modal-->
 
-   <!-- View Country Modal Start -->
-   <div class="modal fade" id="viewCountryModal" tabindex="-1" role="dialog" aria-labelledby="viewCountryModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewCountryModalLongTitle">Country
-              
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-         
-          <label>Country Code:</label>
-         <div><strong>{{ viewCountryObj.code }}</strong></div><br>
-          <label>Country Name:</label>
-          <div> <strong>{{ viewCountryObj.name }}</strong></div>
+<!-- View Country Modal Start -->
+<div class="modal fade" id="viewCountryModal" tabindex="-1" role="dialog" aria-labelledby="viewCountryModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewCountryModalLongTitle">Country
 
-       
-        </div>
-       
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+
+        <label>Country Code:</label>
+        <div><strong>{{ viewCountryObj.code }}</strong></div><br>
+        <label>Country Name:</label>
+        <div> <strong>{{ viewCountryObj.name }}</strong></div>
+
+
+      </div>
+
     </div>
   </div>
-  <!-- End View Country Modal-->
+</div>
+<!-- End View Country Modal-->
 
-    <!-- Edit Country Modal Start -->
-    <div class="modal fade" id="editCountryModal" tabindex="-1" role="dialog" aria-labelledby="editCountryModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editCountryModalLongTitle">Country</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-
-                <label>Country Code:</label>
-                <input type="text" name="code" class="form-control" id="" [(ngModel)]="editCountryObj.code">
-                <label>Country Name:</label>
-                <input type="text" name="name" class="form-control" id="" [(ngModel)]="editCountryObj.name">
-      
-          
-           
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i></button>
-              <button type="button" class="btn btn-primary" (click)="updateCountry(editCountryObj.id)">Update</button>
-            </div>
-          </div>
-        </div>
+<!-- Edit Country Modal Start -->
+<div class="modal fade" id="editCountryModal" tabindex="-1" role="dialog" aria-labelledby="editCountryModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCountryModalLongTitle">Country</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <!-- End Edit Country Modal-->
+      <div class="modal-body">
+        <p style="color: red;"><em> Note: Country Code should be like <b> C1001</b></em></p>
+
+        <label>Country Code:</label>
+        <input type="text" name="code" 
+        class="form-control" id="editcode"
+         [(ngModel)]="editCountryObj.code"
+          required
+         >
+
+        <label>Country Name:</label>
+        <input type="text" name="name" 
+        class="form-control" id="editname" 
+        [(ngModel)]="editCountryObj.name" 
+
+        required>
+
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i></button>
+        <button type="submit" class="btn btn-primary" (click)="updateCountry(editCountryObj.id)" data-dismiss="modal">Update</button>
+      </div>
+    
+    </div>
+  </div>
+</div>
+<!-- End Edit Country Modal-->

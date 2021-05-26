@@ -1,3 +1,4 @@
+
 import { District } from "./district.model";
 
 export class Country{
@@ -8,4 +9,5 @@ export class Country{
 
     public district:Array<District>  = new Array<District>();
 
+   
 }

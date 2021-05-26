@@ -24,6 +24,10 @@ export class DistrictComponent implements OnInit {
   popoverMessage:string="You can not undo this operation after you confirm to delete.";
   cancelClicked=false;
 
+  
+  totalRecords : number;
+  page: number = 1;
+
   constructor(private districtService:DistrictService, 
               private snackBar:MatSnackBar,
               private countryService:CountryService) { }
@@ -117,6 +121,7 @@ export class DistrictComponent implements OnInit {
     this.countryDetails= new Country();
     this.districtService.updateDistrict(id, districtDto).subscribe(
       res =>{
+     
         this.snackBar.open("District Updated Successfully",'Dismiss',{
           duration: 4000,
           verticalPosition: 'top',
@@ -127,7 +132,15 @@ export class DistrictComponent implements OnInit {
         this.ngOnInit();
       },
       err =>{
-        console.log(err.error);
+        //console.log(err.error);
+        this.snackBar.open("Something went wrong could not update",'Dismiss',{
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          panelClass:['red-snackBar'],
+ 
+        });
+        this.ngOnInit();
       }
     );
   }

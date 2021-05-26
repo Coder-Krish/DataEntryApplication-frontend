@@ -31,7 +31,9 @@ export class LaborComponent implements OnInit {
   popoverMessage:string="You can not undo this operation after you confirm to delete.";
   cancelClicked=false;
 
-
+  totalRecords : number;
+  page: number = 1;
+  
   constructor(private laborService:LaborService,
               private snackBar:MatSnackBar,
               private countryService:CountryService,
@@ -179,7 +181,15 @@ export class LaborComponent implements OnInit {
           this.ngOnInit();
         },
         err =>{
-          console.log(err);
+          this.snackBar.open("Something went wrong Could not update Labor",'Dismiss',{
+            duration: 4000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass:['red-snackBar'],
+   
+          });
+
+          this.ngOnInit();
         }
       );
 

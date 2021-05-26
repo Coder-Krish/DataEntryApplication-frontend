@@ -16,7 +16,8 @@ export class ReportComponent implements OnInit {
   public workHours: number = 0;
   public totalLabors: number = 0;
 
-
+  totalRecords : number;
+  page: number = 1;
  
   constructor(private districtService: DistrictService) { }
 
