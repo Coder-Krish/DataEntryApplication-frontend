@@ -28,6 +28,8 @@ export class DistrictComponent implements OnInit {
   totalRecords : number;
   page: number = 1;
 
+  searchResult:any;
+
   constructor(private districtService:DistrictService, 
               private snackBar:MatSnackBar,
               private countryService:CountryService) { }
@@ -178,6 +180,23 @@ export class DistrictComponent implements OnInit {
   changeCountryHandler(event:any){
     //alert(event.target.value);
     this.addDistrictObj.countryId = parseInt(event.target.value);
+  }
+
+  search(){
+    if(this.searchResult == ""){
+      this.ngOnInit();
+    }else{
+      this.districtObjs=this.districtObjs.filter(res =>{
+        //console.log(res);
+
+        if(res.code.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+        return res.code.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase());
+        }
+        if(res.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+          return res.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())
+        }
+      });
+    }
   }
 
 }

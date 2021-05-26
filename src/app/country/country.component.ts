@@ -22,6 +22,9 @@ export class CountryComponent implements OnInit {
   totalRecords : number;
   page: number = 1;
 
+  searchResult:any;
+
+
 
   constructor(private countryService:CountryService,
               private snackBar:MatSnackBar) { }
@@ -128,6 +131,23 @@ export class CountryComponent implements OnInit {
         console.log(err.error);
       }
     );
+  }
+
+  search(){
+    if(this.searchResult == ""){
+      this.ngOnInit();
+    }else{
+      this.countryObjs=this.countryObjs.filter(res =>{
+        //console.log(res);
+
+        if(res.code.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+        return res.code.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase());
+        }
+        if(res.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+          return res.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())
+        }
+      });
+    }
   }
 
 }

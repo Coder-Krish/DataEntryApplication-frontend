@@ -4,6 +4,10 @@
             <i class="fa fa-plus"></i>&nbsp;
             Add District
         </button>
+           
+        <nav class="navbar" style="float: right;">
+          <input type="text" class="form-control" name="searchResult" [(ngModel)]="searchResult" (ngModelChange)="search()" placeholder="Type to search" />
+         </nav>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">

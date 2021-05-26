@@ -18,6 +18,8 @@ export class ReportComponent implements OnInit {
 
   totalRecords : number;
   page: number = 1;
+
+  searchResult:any;
  
   constructor(private districtService: DistrictService) { }
 
@@ -53,6 +55,21 @@ export class ReportComponent implements OnInit {
 
     );
 
+  }
+
+  search(){
+    if(this.searchResult == ""){
+      this.ngOnInit();
+    }else{
+      this.districtObjs=this.districtObjs.filter(res =>{
+        //console.log(res);
+
+        if(res.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+        return res.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase());
+        }
+       
+      });
+    }
   }
 
 }

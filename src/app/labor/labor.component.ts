@@ -33,7 +33,10 @@ export class LaborComponent implements OnInit {
 
   totalRecords : number;
   page: number = 1;
-  
+
+  searchResult:any;
+
+
   constructor(private laborService:LaborService,
               private snackBar:MatSnackBar,
               private countryService:CountryService,
@@ -243,6 +246,26 @@ export class LaborComponent implements OnInit {
 
   changeDistrictHandler(event:any){
     this.addLaborObj.districtId =parseInt( event.target.value);
+  }
+
+  search(){
+    if(this.searchResult == ""){
+      this.ngOnInit();
+    }else{
+      this.laborObjs=this.laborObjs.filter(res =>{
+        //console.log(res);
+
+        if(res.laborName.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+        return res.laborName.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase());
+        }
+        if(res.district.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+          return res.district.name.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())
+        }
+        if(res.taskDetail.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())){
+          return res.taskDetail.toLocaleLowerCase().match(this.searchResult.toLocaleLowerCase())
+        }
+      });
+    }
   }
 
 }
