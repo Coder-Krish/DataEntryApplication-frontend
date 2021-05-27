@@ -63,6 +63,16 @@ export class DistrictComponent implements OnInit {
  
         });
         this.ngOnInit();
+      },
+      err =>{
+        this.snackBar.open("Something went wrong,District could not be added",'Dismiss',{
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          panelClass:['red-snackBar'],
+ 
+        });
+        this.ngOnInit();
       }
     );
   }
@@ -134,7 +144,7 @@ export class DistrictComponent implements OnInit {
         this.ngOnInit();
       },
       err =>{
-        //console.log(err.error);
+        console.log(err.error);
         this.snackBar.open("Something went wrong could not update",'Dismiss',{
           duration: 4000,
           verticalPosition: 'top',

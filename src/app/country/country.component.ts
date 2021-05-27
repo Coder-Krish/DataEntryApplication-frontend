@@ -59,7 +59,14 @@ export class CountryComponent implements OnInit {
            
           },
           err =>{
-            console.log(err.error);
+            this.snackBar.open("Something went wrong,Country could not be added",'Dismiss',{
+              duration: 4000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+              panelClass:['red-snackBar'],
+     
+            });
+            this.ngOnInit();
           }
         );
       

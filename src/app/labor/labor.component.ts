@@ -90,7 +90,14 @@ export class LaborComponent implements OnInit {
             
           },
           err =>{
-            console.log(err);
+            this.snackBar.open("Something went wrong,Labor could not be added",'Dismiss',{
+              duration: 4000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+              panelClass:['red-snackBar'],
+     
+            });
+            this.ngOnInit();
           }
         
     );

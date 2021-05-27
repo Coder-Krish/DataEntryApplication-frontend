@@ -46,7 +46,7 @@ export class ReportComponent implements OnInit {
           this.totalLabors = 0;
         
         }
-        console.log(this.districtObjs);
+       // console.log(this.districtObjs);
       
       },
       err => {
